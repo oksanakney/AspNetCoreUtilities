@@ -23,6 +23,32 @@ namespace AspNeCoreUtilities.Controllers
             return Ok(new { price, secondPrice });
         }
 
+        [HttpGet]
+        public IActionResult UploadFiles() => View();
+       
+
+        [HttpPost]
+        public async Task<IActionResult> UploadFile(IEnumerable<IFormFile> files)
+        {
+            string path = Path.Combine(Environment.CurrentDirectory, "Files");
+
+            foreach (var file in files.Where(f => f.Length > 0)) 
+            {
+                string filename = Path.Combine(path, file.FileName);
+
+                using (var filestream = new FileStream(filename, FileMode.Create))
+                {
+                    await file.CopyToAsync(filestream);
+                }
+            }
+
+            return Ok( 
+                new 
+                { 
+                    savedFilesLength = files.Sum(f => f.Length)
+                });
+        }
+
         public IActionResult Privacy()
         {
             return View();
