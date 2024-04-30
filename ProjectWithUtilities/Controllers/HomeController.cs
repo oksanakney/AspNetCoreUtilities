@@ -18,6 +18,11 @@ namespace AspNeCoreUtilities.Controllers
             return View();
         }
 
+        public IActionResult GetPrice(decimal price, decimal secondPrice) 
+        {
+            return Ok(new { price, secondPrice });
+        }
+
         public IActionResult Privacy()
         {
             return View();

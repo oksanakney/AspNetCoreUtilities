@@ -7,6 +7,7 @@ namespace AspNetCoreUtilities.ModelBinders
     {
         public Task BindModelAsync(ModelBindingContext bindingContext)// framework si go palni, kogato dojde rewuest
         {
+            // home/getprice?price=3,14
             ValueProviderResult valueResult = bindingContext.ValueProvider
                 .GetValue(bindingContext.ModelName);
 
