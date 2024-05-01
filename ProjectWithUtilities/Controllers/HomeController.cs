@@ -28,15 +28,15 @@ namespace AspNeCoreUtilities.Controllers
        
 
         [HttpPost]
-        public async Task<IActionResult> UploadFile(IEnumerable<IFormFile> files)
-        {
-            string path = Path.Combine(Environment.CurrentDirectory, "Files");
+        public async Task<IActionResult> UploadFiles(IEnumerable<IFormFile> files)
+        { 
+            string path = Path.Combine(Environment.CurrentDirectory, "Files");// moga da vzema directory prez environment
 
             foreach (var file in files.Where(f => f.Length > 0)) 
             {
                 string filename = Path.Combine(path, file.FileName);
 
-                using (var filestream = new FileStream(filename, FileMode.Create))
+                using (var filestream = new FileStream(filename, FileMode.Create)) //FileStream
                 {
                     await file.CopyToAsync(filestream);
                 }
