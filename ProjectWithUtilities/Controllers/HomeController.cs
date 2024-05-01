@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AspNetCoreUtilities.Models;
 using System.Diagnostics;
+using Microsoft.Extensions.FileProviders;
 
 namespace AspNeCoreUtilities.Controllers
 {
@@ -47,6 +48,18 @@ namespace AspNeCoreUtilities.Controllers
                 { 
                     savedFilesLength = files.Sum(f => f.Length)
                 });
+        }
+
+        // /home/download?filename=hi.txt -> works
+        public IActionResult Download(string filename) 
+        {
+            string path = Path.Combine(Environment.CurrentDirectory, "Files");
+            IFileProvider fileProvider = new PhysicalFileProvider(path);
+            IFileInfo fileInfo = fileProvider.GetFileInfo(filename);
+            var stream = fileInfo.CreateReadStream();
+            var mimeType = "application/octet-stream";
+
+            return File(stream, mimeType, filename);
         }
 
         public IActionResult Privacy()
